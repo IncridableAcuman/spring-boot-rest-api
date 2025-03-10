@@ -2,6 +2,7 @@ package com.javaboot.spring.controller;
 
 import com.javaboot.spring.model.Book;
 import com.javaboot.spring.service.BookService;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,7 @@ import java.util.Optional;
 @RequestMapping("/api")
 public class BookController {
     private final BookService bookService;
+
     public BookController(BookService bookService){
         this.bookService=bookService;
     }
@@ -69,5 +71,20 @@ public class BookController {
         } catch (IllegalArgumentException e){
             return ResponseEntity.badRequest().body(null);
         }
+    }
+    @GetMapping("/book/ratings/{rating}")
+    public ResponseEntity findByRating(@PathVariable Integer rating){
+        List<Book> books = bookService.findByRating(rating);
+        return  ResponseEntity.ok(books);
+    }
+    @GetMapping("/book/titles{title}")
+    public ResponseEntity findByTitle(@PathVariable String title ){
+        List<Book> books = bookService.findByTitle(title);
+        return  ResponseEntity.ok(books);
+    }
+    @GetMapping("/book/genres/{genre}")
+    public ResponseEntity findByGenre(@PathVariable String genre ){
+        List<Book> books = bookService.findByGenre(genre);
+        return  ResponseEntity.ok(books);
     }
 }

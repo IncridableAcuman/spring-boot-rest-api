@@ -3,6 +3,7 @@ package com.javaboot.spring.service;
 import com.javaboot.spring.model.Book;
 import com.javaboot.spring.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,4 +45,25 @@ public class BookService {
         book2.setRating(book.getRating());
         return bookRepository.save(book2);
     }
+
+    public List<Book> findByTitle(String title){
+        return bookRepository.findByTitle(title);
+    }
+    public List<Book> findByRating(Integer rating){
+        return bookRepository.findByRating(rating);
+    }
+    public List<Book> findByGenre(String genre){
+        return bookRepository.findByGenre(genre);
+    }
+    @Scheduled(cron = "0 53 11 * * * ")
+    public Book saveCron(){
+        Book book = new Book();
+        book.setTitle("Xamsa");
+        book.setAuthor("Alisher Navoiy");
+        book.setContent("Ushbu Xamsa 5 lik daston hisoblanadi");
+        book.setGenre("doston");
+        book.setRating(7);
+        return bookRepository.save(book);
+    }
+
 }
